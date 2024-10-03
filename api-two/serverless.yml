@@ -52,8 +52,8 @@ resources:
         NetworkMode: awsvpc
         RequiresCompatibilities:
           - FARGATE
-        ExecutionRoleArn: !ImportValue signage-dev-${self:provider.stage}-ECSTaskExecutionRoleArn
-        TaskRoleArn: !ImportValue signage-dev-${self:provider.stage}-ECSTaskRoleArn
+        ExecutionRoleArn: !ImportValue signage-${self:provider.stage}-ECSTaskExecutionRoleArn
+        TaskRoleArn: !ImportValue signage-${self:provider.stage}-ECSTaskRoleArn
         ContainerDefinitions:
           - Name: "${self:service}-${self:provider.stage}-auth"
             Image: 180294218712.dkr.ecr.us-east-1.amazonaws.com/api-two:v${env:VERSION}
