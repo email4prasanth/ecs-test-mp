@@ -46,7 +46,7 @@ jobs:
             echo "Bucket 'signage-dev' already exists."
           else
             echo "Bucket 'signage-dev' does not exist. Creating..."
-            aws s3api create-bucket --bucket "signage-dev" --region us-east-1 --create-bucket-configuration LocationConstraint=us-east-1
+            aws s3api create-bucket --bucket "signage-dev" --region us-east-1 
             echo "Bucket 'signage-dev' created."
           fi
 
