@@ -83,7 +83,16 @@ resources:
         HealthyThresholdCount: 10
         Name: "${self:service}-auth-tg"
         TargetType: ip
-
+  
+    LoadBalancerListener:
+      Type: AWS::ElasticLoadBalancingV2::Listener
+      Properties:
+        LoadBalancerArn: !ImportValue signage-${self:provider.stage}-ApplicationLoadBalancerArn
+        Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupArn: !Ref TargetGroupAuth
     PathBasedRoutingRuleAuth:
       Type: AWS::ElasticLoadBalancingV2::ListenerRule
       Properties:

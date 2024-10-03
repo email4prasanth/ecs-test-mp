@@ -2,3 +2,4 @@
 ElasticLoadBalancingFullAccess
 AmazonECS_FullAccess
 AmazonEC2ContainerRegistryPowerUser
+AmazonEC2ContainerRegistryFullAccess
