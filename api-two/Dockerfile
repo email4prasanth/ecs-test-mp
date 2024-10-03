@@ -2,10 +2,12 @@
 FROM node:16-alpine
 
 # Step 2: Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /usr/src/app/api-two
 
 # Step 3: Copy the package.json and package-lock.json (check if is exist)
 COPY package*.json ./
+COPY ./api-two /usr/src/app/api-two
+
 
 # Step 4: Install dependencies
 RUN npm install -g serverless@3
