@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - api-two/**
+      - prasanth
+    # paths:
+    #   - api-two/**
 
 env:
   VERSION: ${{ github.run_number }}
