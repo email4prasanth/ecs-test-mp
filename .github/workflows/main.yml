@@ -39,6 +39,16 @@ jobs:
           aws-region: us-east-1
       - name: Install Serverless Framework
         run: npm install -g serverless@3.38.0
+
+      - name: Create S3 bucket if it doesn't exist
+        run: |
+          if ! aws s3api head-bucket --bucket signage-dev > /dev/null 2>&1; then
+            echo "S3 bucket does not exist. Creating it..."
+            aws s3api create-bucket --bucket signage-dev --region ${{ secrets.AWS_REGION }} --create-bucket-configuration LocationConstraint=${{ secrets.AWS_REGION }}
+          else
+            echo "S3 bucket already exists. Skipping creation."
+          fi
+          
       - name: Deploy Static CARE Website
         run: sls deploy --region us-east-1 --stage dev
 
