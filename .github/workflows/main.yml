@@ -6,6 +6,7 @@ on:
       - dev
     paths:
       - api-two/**
+      - '*'
 
 env:
   VERSION: ${{ github.run_number }}
