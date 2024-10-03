@@ -21,4 +21,5 @@ EXPOSE 9090
 
 # Step 7: Command to run the app (make sure the start script is in your package.json)
 CMD [ "node", "api-two/index.js" ]
-#run it
+#run it now
+
