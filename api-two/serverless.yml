@@ -39,14 +39,14 @@ resources:
             SecurityGroups:
               - sg-0d982615fe1d11784
         LoadBalancers:
-          - ContainerName: "${self:service}-${self:provider.stage}-auth"
+          - ContainerName: "${self:service}-${self:provider.stage}"
             ContainerPort: 9090
             TargetGroupArn: !Ref TargetGroupAuth
 
     TaskDefinitionAuth:
       Type: AWS::ECS::TaskDefinition
       Properties:
-        Family: "${self:service}-auth"
+        Family: "${self:service}"
         Cpu: 512
         Memory: 1024
         NetworkMode: awsvpc
@@ -55,7 +55,7 @@ resources:
         ExecutionRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskExecutionRoleArn
         TaskRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskRoleArn
         ContainerDefinitions:
-          - Name: "${self:service}-${self:provider.stage}-auth"
+          - Name: "${self:service}-${self:provider.stage}"
             Image: 180294218712.dkr.ecr.us-east-1.amazonaws.com/api-two:v${env:VERSION}
             PortMappings:
               - ContainerPort: 9090
@@ -64,9 +64,9 @@ resources:
             LogConfiguration:
               LogDriver: awslogs
               Options:
-                awslogs-group: "${self:service}-auth"
+                awslogs-group: "${self:service}"
                 awslogs-region: !Ref AWS::Region
-                awslogs-stream-prefix: "${self:service}-auth"
+                awslogs-stream-prefix: "${self:service}"
 
     TargetGroupAuth:
       Type: AWS::ElasticLoadBalancingV2::TargetGroup
@@ -81,7 +81,7 @@ resources:
         HealthCheckProtocol: "HTTP"
         HealthCheckTimeoutSeconds: 5
         HealthyThresholdCount: 10
-        Name: "${self:service}-auth-tg"
+        Name: "${self:service}-tg"
         TargetType: ip
   
     LoadBalancerListener:
@@ -112,6 +112,6 @@ resources:
     CloudWatchLogsGroupAuth:
       Type: AWS::Logs::LogGroup
       Properties:
-        LogGroupName: "${self:service}-auth"
+        LogGroupName: "${self:service}"
         RetentionInDays: 30
     
