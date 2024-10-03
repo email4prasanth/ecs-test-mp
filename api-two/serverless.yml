@@ -22,7 +22,7 @@ resources:
         - PathBasedRoutingRuleAuth
       Properties:
         TaskDefinition: !Ref TaskDefinitionAuth
-        Cluster: !ImportValue signage-dev-${self:provider.stage}-ECSClusterArn
+        Cluster: !ImportValue signage-svc-${self:provider.stage}-ECSClusterArn
         LaunchType: FARGATE
         DesiredCount: 1
         EnableExecuteCommand: true
@@ -52,8 +52,8 @@ resources:
         NetworkMode: awsvpc
         RequiresCompatibilities:
           - FARGATE
-        ExecutionRoleArn: !ImportValue signage-${self:provider.stage}-ECSTaskExecutionRoleArn
-        TaskRoleArn: !ImportValue signage-${self:provider.stage}-ECSTaskRoleArn
+        ExecutionRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskExecutionRoleArn
+        TaskRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskRoleArn
         ContainerDefinitions:
           - Name: "${self:service}-${self:provider.stage}-auth"
             Image: 180294218712.dkr.ecr.us-east-1.amazonaws.com/api-two:v${env:VERSION}
@@ -71,7 +71,7 @@ resources:
     TargetGroupAuth:
       Type: AWS::ElasticLoadBalancingV2::TargetGroup
       Properties:
-        VpcId: "vpc-02ab4b690a1d8a115"
+        VpcId: "vpc-0aba4745bbae42ebd"
         Port: 9090
         Protocol: HTTP
         Matcher:
@@ -87,7 +87,7 @@ resources:
     LoadBalancerListener:
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
-        LoadBalancerArn: !ImportValue signage-dev-${self:provider.stage}-ApplicationLoadBalancerArn
+        LoadBalancerArn: !ImportValue signage-svc-${self:provider.stage}-ApplicationLoadBalancerArn
         Protocol: HTTP
         Port: 80
         DefaultActions:
@@ -104,7 +104,7 @@ resources:
             Values:
               - /auth
               - /auth/*
-        # ListenerArn: !ImportValue signage-dev-${self:provider.stage}-LoadBalancerListener
+        # ListenerArn: !ImportValue signage-svc-${self:provider.stage}-LoadBalancerListener
         # Priority: 2
         ListenerArn: !Ref LoadBalancerListener
         Priority: 1
