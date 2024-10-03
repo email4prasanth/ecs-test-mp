@@ -22,6 +22,7 @@ resources:
         - PathBasedRoutingRuleAuth
       Properties:
         TaskDefinition: !Ref TaskDefinitionAuth
+        # Cluster: !ImportValue signage-svc-${self:provider.stage}-ECSClusterArn
         Cluster: !ImportValue signage-svc-${self:provider.stage}-ECSClusterArn
         LaunchType: FARGATE
         DesiredCount: 1
