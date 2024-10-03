@@ -6,7 +6,7 @@ WORKDIR /usr/src/app/api-two
 
 # Step 3: Copy the package.json and package-lock.json (check if is exist)
 COPY package*.json ./
-COPY index.js /usr/src/app/api-two/index.js
+COPY index.js ./
 
 
 # Step 4: Install dependencies
