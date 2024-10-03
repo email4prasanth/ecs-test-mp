@@ -41,7 +41,7 @@ jobs:
       - name: Install Serverless Framework
         run: npm install -g serverless@3.38.0
       - name: Deploy Static CARE Website
-        run: sls deploy --region eu-west-2 --stage dev
+        run: sls deploy --region us-east-1 --stage dev
 
   api-two:
     needs: [changes, cluster]
