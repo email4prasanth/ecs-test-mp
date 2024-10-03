@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Step 4: Install dependencies
-npm install -g serverless@3
+RUN npm install -g serverless@3
 RUN npm install moment nodemon express
 
 # Step 5: Copy the rest of your application code to the container
