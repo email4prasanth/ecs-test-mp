@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - dev
-    paths:
-      - api-two/**
+    # paths:
+    #   - api-two/**
 
 env:
   VERSION: ${{ github.run_number }}
@@ -34,13 +34,13 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
       - name: Install Serverless Framework
         run: npm install -g serverless@3.38.0
       - name: Deploy Static CARE Website
-        run: sls deploy --region eu-west-2 --stage dev
+        run: sls deploy --region us-east-1 --stage dev
 
   api-two:
     needs: [changes, cluster]
