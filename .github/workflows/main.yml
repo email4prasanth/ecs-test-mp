@@ -1,0 +1,74 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches:
+      - dev
+    paths:
+      - api-two/**
+
+env:
+  VERSION: ${{ github.run_number }}
+
+jobs:
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api-two: ${{steps.filter.outputs.api-two}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          base: ${{ github.ref }}
+          filters: |
+            api-two:
+              - 'api-two/**'
+
+  cluster: # deploy
+    name: cluster
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+      - name: Install Serverless Framework
+        run: npm install -g serverless@3.38.0
+      - name: Deploy Static CARE Website
+        run: sls deploy --region eu-west-2 --stage dev
+
+  api-two:
+    needs: [changes, cluster]
+    if: ${{ needs.changes.outputs.api-two == 'true' }}
+    name: api-two
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: us-east-1
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: Build, tag, and push image to Amazon ECR
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: api-two
+          IMAGE_TAG: v${{ env.VERSION }}
+        run: |
+          cd api-two
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+      - name: Install Serverless Framework
+        run: npm install -g serverless@3.38.0
+      - name: Deploy Static CARE Website
+        run: cd api-two && sls deploy --region us-east-1 --stage dev
