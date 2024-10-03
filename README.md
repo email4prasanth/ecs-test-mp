@@ -1,3 +1,4 @@
 # ecs-test
 ElasticLoadBalancingFullAccess
 AmazonECS_FullAccess
+AmazonEC2ContainerRegistryPowerUser
