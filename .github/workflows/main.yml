@@ -39,7 +39,9 @@ jobs:
           aws-region: us-east-1
       - name: Install Serverless Framework
         run: npm install -g serverless@3.38.0
-
+      - name: Deploy Static CARE Website
+        run: sls deploy --region us-east-1 --stage dev
+  
   api-two:
     needs: [changes, cluster]
     if: ${{ needs.changes.outputs.api-two == 'true' }}

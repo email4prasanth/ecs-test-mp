@@ -22,8 +22,8 @@ resources:
         - PathBasedRoutingRuleAuth
       Properties:
         TaskDefinition: !Ref TaskDefinitionAuth
-        # Cluster: !ImportValue signage-service-${self:provider.stage}-ECSClusterArn
-        Cluster: !ImportValue signage-service-${self:provider.stage}-ECSClusterArn
+        # Cluster: !ImportValue signage-svc-${self:provider.stage}-ECSClusterArn
+        Cluster: !ImportValue signage-svc-${self:provider.stage}-ECSClusterArn
         LaunchType: FARGATE
         DesiredCount: 1
         EnableExecuteCommand: true
@@ -53,8 +53,8 @@ resources:
         NetworkMode: awsvpc
         RequiresCompatibilities:
           - FARGATE
-        ExecutionRoleArn: !ImportValue signage-service-${self:provider.stage}-ECSTaskExecutionRoleArn
-        TaskRoleArn: !ImportValue signage-service-${self:provider.stage}-ECSTaskRoleArn
+        ExecutionRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskExecutionRoleArn
+        TaskRoleArn: !ImportValue signage-svc-${self:provider.stage}-ECSTaskRoleArn
         ContainerDefinitions:
           - Name: "${self:service}-${self:provider.stage}"
             Image: 180294218712.dkr.ecr.us-east-1.amazonaws.com/api-two:v${env:VERSION}
@@ -88,7 +88,7 @@ resources:
     LoadBalancerListener:
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
-        LoadBalancerArn: !ImportValue signage-service-${self:provider.stage}-ApplicationLoadBalancerArn
+        LoadBalancerArn: !ImportValue signage-svc-${self:provider.stage}-ApplicationLoadBalancerArn
         Protocol: HTTP
         Port: 80
         DefaultActions:
@@ -105,7 +105,7 @@ resources:
             Values:
               - /auth
               - /auth/*
-        # ListenerArn: !ImportValue signage-service-${self:provider.stage}-LoadBalancerListener
+        # ListenerArn: !ImportValue signage-svc-${self:provider.stage}-LoadBalancerListener
         # Priority: 2
         ListenerArn: !Ref LoadBalancerListener
         Priority: 1
