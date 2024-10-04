@@ -40,18 +40,18 @@ jobs:
       - name: Install Serverless Framework
         run: npm install -g serverless@3.38.0
 
-      - name: Check and Create S3 Bucket if not exists
-        run: |
-          if aws s3api head-bucket --bucket "signage-dev" 2>/dev/null; then
-            echo "Bucket 'signage-dev' already exists."
-          else
-            echo "Bucket 'signage-dev' does not exist. Creating..."
-            aws s3api create-bucket --bucket "signage-dev" --region us-east-1 
-            echo "Bucket 'signage-dev' created."
-          fi
+      # - name: Check and Create S3 Bucket if not exists
+      #   run: |
+      #     if aws s3api head-bucket --bucket "signage-dev" 2>/dev/null; then
+      #       echo "Bucket 'signage-dev' already exists."
+      #     else
+      #       echo "Bucket 'signage-dev' does not exist. Creating..."
+      #       aws s3api create-bucket --bucket "signage-dev" --region us-east-1 
+      #       echo "Bucket 'signage-dev' created."
+      #     fi
 
-      - name: Deploy Static CARE Website
-        run: sls deploy --region us-east-1 --stage dev
+      # - name: Deploy Static CARE Website
+      #   run: sls deploy --region us-east-1 --stage dev
 
   api-two:
     needs: [changes, cluster]
