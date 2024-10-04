@@ -89,11 +89,19 @@ resources:
       Type: AWS::ElasticLoadBalancingV2::Listener
       Properties:
         LoadBalancerArn: !ImportValue signage-svc-${self:provider.stage}-ApplicationLoadBalancerArn
-        Protocol: HTTP
-        Port: 80
+        # Protocol: HTTP
+        # Port: 80
+        # DefaultActions:
+        #   - Type: forward
+        #     TargetGroupArn: !Ref TargetGroupAuth
+        Protocol: HTTPS
+        Port: 443
+        Certificates:
+          - CertificateArn: <Your_Certificate_ARN> # Replace with your SSL certificate ARN
         DefaultActions:
           - Type: forward
             TargetGroupArn: !Ref TargetGroupAuth
+            
     PathBasedRoutingRuleAuth:
       Type: AWS::ElasticLoadBalancingV2::ListenerRule
       Properties:

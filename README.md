@@ -13,9 +13,9 @@ IAMFullAccess
 #### To stop service check the list of services, task
 aws ecs list-services --cluster signage-svc
 aws ecs list-tasks --cluster signage-svc 
-aws ecs update-service --cluster signage-svc --service signage-auth-dev-EcsServiceAuth-y6uAPyabxP2X --desired-count 0
+aws ecs update-service --cluster signage-svc --service signage-auth-dev-EcsServiceAuth-9OAAmLS9mfRw --desired-count 0
 aws ecs list-tasks --cluster signage-svc 
-aws ecs delete-service --cluster signage-svc --service signage-auth-dev-EcsServiceAuth-y6uAPyabxP2X
+aws ecs delete-service --cluster signage-svc --service signage-auth-dev-EcsServiceAuth-9OAAmLS9mfRw
 
 #### If you stop the task wihtout desired count 0 it will became daemon
 aws ecs list-tasks --cluster signage-svc 
@@ -47,6 +47,11 @@ aws ecr describe-repositories
 aws ecr list-images --repository-name <repository-name>
 aws ecr batch-delete-image --repository-name <repository-name> --image-ids imageTag=<tag>
 aws ecr delete-repository --repository-name <repository-name> --force
+
+
+- Open AWS Certificate Manager (ACM)> Request a public certificate
+- Open techprasanth.xyz > create record > www, A Record , toggle alias select Alias LB, region, ALB Name., simple routing create.
+-  Copy CNAME of ACM Open Route 53  www, CNAME, value and paste
 
 
 
