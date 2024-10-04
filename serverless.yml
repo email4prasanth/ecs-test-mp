@@ -1,4 +1,4 @@
-service: signage-svc
+service: signage-service
 
 provider:
   name: aws
