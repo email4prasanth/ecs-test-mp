@@ -108,3 +108,4 @@ resources:
       Value: !GetAtt ECSTaskRole.Arn
       Export:
         Name: ${self:service}-${self:provider.stage}-ECSTaskRoleArn
+# create

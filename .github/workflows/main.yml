@@ -4,8 +4,9 @@ on:
   push:
     branches:
       - dev
-    # paths:
-    #   - api-two/**
+    paths:
+      - ../serverless.yml
+      - api-two/**
 
 env:
   VERSION: ${{ github.run_number }}
